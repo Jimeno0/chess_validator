@@ -42,7 +42,20 @@ class King < ChessPiece
   end
 end
 
+class Rook < ChessPiece
+  def can_move_to(from)
+    for y in 0..7
+      @available_moves.push([from[0],y])
+      @available_moves.delete(from)
+    end
 
+    for x in 0..7
+      @available_moves.push([x,from[0]])
+      @available_moves.delete(from)
+    end
+    @available_moves
+  end
+end
 
 
 
@@ -50,12 +63,13 @@ end
 
 my_pawn = Pawn.new
 my_king = King.new
+my_rook = Rook.new
 
 puts Position_translator.translate("h1")
 puts  "-------"
 puts my_pawn.can_move_to(Position_translator.translate("b7"))
 puts my_king.can_move_to(Position_translator.translate("b7"))
-
+puts my_rook.can_move_to(Position_translator.translate("b7"))
 #Sample
 board = [
           ["a8","b8","c8","d8","e8","f8","g8","h8"],
