@@ -59,8 +59,8 @@ end
 
 
 class Bishop < ChessPiece
+
   def can_move_to(from)
-    
     dif = from[0] - from[1]
     sum = from[0] + from[1]
 
@@ -70,9 +70,6 @@ class Bishop < ChessPiece
       y = i
       if x <8  && y < 8 && x >= 0 && y >= 0
         @available_moves.push([x,y])  
-      end
-      if x == 7
-        break
       end
     end
 
@@ -84,11 +81,35 @@ class Bishop < ChessPiece
         @available_moves.push([x,y])  
       end
     end
-
+    #Return moves
     @available_moves.delete(from)
     @available_moves
   end
 end
+
+class Knight < ChessPiece
+
+  def can_move_to(from)
+    pos1 = [from[0]-2,from[0]-1]
+    pos2 = [from[0]-2,from[0]+1]
+    pos3 = [from[0]-1,from[0]-2]
+    pos4 = [from[0]-1,from[0]+2]
+
+    pos5 = [from[0]+1,from[0]-2]
+    pos6 = [from[0]+1,from[0]+2]
+    pos7 = [from[0]+2,from[0]-1]
+    pos8 = [from[0]+2,from[0]+1]
+
+    positions = [pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8]
+    positions.each do |pos|
+      if pos[0] <8  && pos[1] < 8 && pos[0] >= 0 && pos[1] >= 0
+        @available_moves.push(pos)
+      end
+    end
+  end
+end
+
+
 
 # Comprobar cuando comen, el peon, si es blanca o negra
 #si se sale del tablero el moviemiento, podria ser que vaya a a entrar 
@@ -98,7 +119,8 @@ end
 # my_pawn = Pawn.new
 # my_king = King.new
 # my_rook = Rook.new
-my_bishop = Bishop.new
+# my_bishop = Bishop.new
+my_knight = Knight.new
 
 
 # g3 ---> 6,3
@@ -112,14 +134,14 @@ my_bishop = Bishop.new
 
 
 
-puts Position_translator.translate("b3")
+puts Position_translator.translate("c7")
 
 puts  "-------"
 # puts my_pawn.can_move_to(Position_translator.translate("g3"))
 # puts my_king.can_move_to(Position_translator.translate("g3"))
 # puts my_rook.can_move_to(Position_translator.translate("g3"))
-
-puts my_bishop.can_move_to(Position_translator.translate("b3"))
+# puts my_bishop.can_move_to(Position_translator.translate("c7"))
+puts my_knight.can_move_to(Position_translator.translate("h8"))
 #Sample
 board = [
           ["a8","b8","c8","d8","e8","f8","g8","h8"],
