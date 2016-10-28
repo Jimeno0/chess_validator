@@ -58,18 +58,67 @@ class Rook < ChessPiece
 end
 
 
+class Bishop < ChessPiece
+  def can_move_to(from)
+    
+    if from[0]>from[1]
+      dif = from[0] - from[1]
+      for i in 0..7
+        x = dif + i
+        y = i
+        @available_moves.push([x,y])
+        if x == 7
+          break
+        end
+      end
 
+      sum = from[0] + from[1]
+      for i in 0..sum
+        x = i
+        y = sum - i
+        if x <8  && y < 8
+          @available_moves.push([x,y])  
+        end
+      end
+    end
+
+
+
+    @available_moves.delete(from)
+    @available_moves
+  end
+end
+
+# Comprobar cuando comen, el peon, si es blanca o negra
+#si se sale del tablero el moviemiento, podria ser que vaya a a entrar 
+#por el otro extremo del tablero en el peon y rey y eso hay que arreglarlo tambien (dejar para el final la comparacion con si hay otra ficha, así podemos hacer que no pete???)
 
 
 my_pawn = Pawn.new
 my_king = King.new
 my_rook = Rook.new
+my_bishop = Bishop.new
 
-puts Position_translator.translate("h1")
+
+# g3 ---> 6,3
+# c7 ---> 2,1
+# f6 ---> 5,2
+# h8 ---> 7,0
+# d5 ---> 3,3
+# b3 ---> 1,5
+# b7 ---> 1,1
+# f1 ---> 5,7
+
+
+
+puts Position_translator.translate("f1")
+
 puts  "-------"
-puts my_pawn.can_move_to(Position_translator.translate("b7"))
-puts my_king.can_move_to(Position_translator.translate("b7"))
-puts my_rook.can_move_to(Position_translator.translate("b7"))
+# puts my_pawn.can_move_to(Position_translator.translate("g3"))
+# puts my_king.can_move_to(Position_translator.translate("g3"))
+# puts my_rook.can_move_to(Position_translator.translate("g3"))
+
+puts my_bishop.can_move_to(Position_translator.translate("f1"))
 #Sample
 board = [
           ["a8","b8","c8","d8","e8","f8","g8","h8"],
@@ -81,5 +130,5 @@ board = [
           ["a2","b2","c2","d2","e2","f2","g2","h2"],
           ["a1","b1","c1","d1","e1","f1","g1","h1"],
 ]
-binding.pry
+# binding.pry
 puts "teting"
