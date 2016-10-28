@@ -61,28 +61,29 @@ end
 class Bishop < ChessPiece
   def can_move_to(from)
     
-    if from[0]>from[1]
-      dif = from[0] - from[1]
-      for i in 0..7
-        x = dif + i
-        y = i
-        @available_moves.push([x,y])
-        if x == 7
-          break
-        end
-      end
+    dif = from[0] - from[1]
+    sum = from[0] + from[1]
 
-      sum = from[0] + from[1]
-      for i in 0..sum
-        x = i
-        y = sum - i
-        if x <8  && y < 8
-          @available_moves.push([x,y])  
-        end
+    # First diagonal
+    for i in 0..7
+      x = dif + i
+      y = i
+      if x <8  && y < 8 && x >= 0 && y >= 0
+        @available_moves.push([x,y])  
+      end
+      if x == 7
+        break
       end
     end
 
-
+    # Second diagonal
+    for i in 0..sum
+      x = i
+      y = sum - i
+      if x <8  && y < 8 && x >= 0 && y >= 0
+        @available_moves.push([x,y])  
+      end
+    end
 
     @available_moves.delete(from)
     @available_moves
@@ -94,9 +95,9 @@ end
 #por el otro extremo del tablero en el peon y rey y eso hay que arreglarlo tambien (dejar para el final la comparacion con si hay otra ficha, así podemos hacer que no pete???)
 
 
-my_pawn = Pawn.new
-my_king = King.new
-my_rook = Rook.new
+# my_pawn = Pawn.new
+# my_king = King.new
+# my_rook = Rook.new
 my_bishop = Bishop.new
 
 
@@ -111,14 +112,14 @@ my_bishop = Bishop.new
 
 
 
-puts Position_translator.translate("f1")
+puts Position_translator.translate("b3")
 
 puts  "-------"
 # puts my_pawn.can_move_to(Position_translator.translate("g3"))
 # puts my_king.can_move_to(Position_translator.translate("g3"))
 # puts my_rook.can_move_to(Position_translator.translate("g3"))
 
-puts my_bishop.can_move_to(Position_translator.translate("f1"))
+puts my_bishop.can_move_to(Position_translator.translate("b3"))
 #Sample
 board = [
           ["a8","b8","c8","d8","e8","f8","g8","h8"],
@@ -130,5 +131,5 @@ board = [
           ["a2","b2","c2","d2","e2","f2","g2","h2"],
           ["a1","b1","c1","d1","e1","f1","g1","h1"],
 ]
-# binding.pry
+binding.pry
 puts "teting"
