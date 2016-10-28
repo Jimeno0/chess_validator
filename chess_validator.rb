@@ -1,5 +1,77 @@
 require "pry"
 
+#BOARD && POSITION TRANSLATOR
+class Board
+  def initialize(route)
+    @board =[]
+    get_board_from_txt(route)
+    create_pieces_in_board
+  end
+
+  def get_board_from_txt(route)
+    f = File.open(route, "r")
+    txt_arr = []
+    f.each_line do |line|
+      @board.push(line.chomp.split(" "))
+    end
+    f.close
+  end
+
+  def create_pieces_in_board
+    for x in 0..7
+      for y in 0..7
+        check_string_then_create_piece(x,y,@board[x][y])
+      end
+    end
+  end
+
+  def check_string_then_create_piece(x,y,str)
+    
+    type = str.chars[1]
+    color = str.chars[0]
+    
+    if type == "R"
+      @board[x][y] = Rook.new([x,y])
+    elsif type == "N"
+      @board[x][y] = Knight.new([x,y])
+    elsif type == "B"
+      @board[x][y] = Bishop.new([x,y])
+    elsif type == "Q"
+      @board[x][y] = Queen.new([x,y])
+    elsif type == "K"
+      @board[x][y] = King.new([x,y])
+    elsif type == "P"
+      @board[x][y] = Pawn.new([x,y])
+    else
+      @board[x][y] = nil
+    end
+  end 
+end
+
+class Position_translator
+  def self.translate(string)
+    string_arr = string.chars
+    xpos = string_arr[0].ord - 97
+    ypos =  8 - string_arr[1].to_i
+    [xpos,ypos]
+  end
+end
+
+class ChessValidator
+  def self.validate(route)
+    f = File.open(route, "r")
+    txt_arr = []
+    f.each_line do |line|
+      @board.push(line.chomp.split(" "))
+    end
+    f.close
+  end
+  
+  
+end
+
+
+
 #SHARED MOVEMENT MODULES
 module Rook_move
   def rook_moves(from)
@@ -45,30 +117,22 @@ module Bishop_move
 end
 
 
-class Board
-  def initialize(arr_of_arr)
-    @board = arr_of_arr
-  end
-end
-
-class Position_translator
-  def self.translate(string)
-    string_arr = string.chars
-    xpos = string_arr[0].ord - 97
-    ypos =  8 - string_arr[1].to_i
-    [xpos,ypos]
-  end
-end
 
 
 class ChessPiece
-  def initialize
+  def initialize(from)
     @available_moves = []
+    get_moves(from)
+  end
+
+  def piece_movement_allowed?(finPos)
+    @available_moves.include?(finPos)
   end
 end
 
 class Pawn < ChessPiece
   def get_moves(from)
+    #Peon. comprobar color a ver si mueve para arriba o para abajo. comprobar posivion inical para mover dos o no
     @available_moves.push(from[0],from[1]-1)
     @available_moves
   end
@@ -138,48 +202,38 @@ class Queen <ChessPiece
   end
 end
 
-# Comprobar cuando comen, el peon, si es blanca o negra
+#Peon. comprobar color a ver si mueve para arriba o para abajo. comprobar posivion inical para mover dos o no
 #si se sale del tablero el moviemiento, podria ser que vaya a a entrar 
 #por el otro extremo del tablero en el peon y rey y eso hay que arreglarlo tambien (dejar para el final la comparacion con si hay otra ficha, así podemos hacer que no pete???)
 
 
-my_pawn = Pawn.new
-my_king = King.new
-my_rook = Rook.new
-my_bishop = Bishop.new
-my_knight = Knight.new
-my_queen = Queen.new
+# my_pawn = Pawn.new(Position_translator.translate("c7"))
+# my_king = King.new(Position_translator.translate("c7"))
+# my_rook = Rook.new(Position_translator.translate("c7"))
+# my_bishop = Bishop.new(Position_translator.translate("c7"))
+# my_knight = Knight.new(Position_translator.translate("c7"))
+# my_queen = Queen.new(Position_translator.translate("c7"))
 
-# g3 ---> 6,3
-# c7 ---> 2,1
-# f6 ---> 5,2
-# h8 ---> 7,0
-# d5 ---> 3,3
-# b3 ---> 1,5
-# b7 ---> 1,1
-# f1 ---> 5,7
+# puts Position_translator.translate("c7")
+
+# puts  "-------"
+
+# #Sample
+# board = [
+#           ["a8","b8","c8","d8","e8","f8","g8","h8"],
+#           ["a7","b7","c7","d7","e7","f7","g7","h7"],
+#           ["a6","b6","c6","d6","e6","f6","g6","h6"],
+#           ["a5","b5","c5","d5","e5","f5","g5","h5"],
+#           ["a4","b4","c4","d4","e4","f4","g4","h4"],
+#           ["a3","b3","c3","d3","e3","f3","g3","h3"],
+#           ["a2","b2","c2","d2","e2","f2","g2","h2"],
+#           ["a1","b1","c1","d1","e1","f1","g1","h1"],
+# ]
 
 
+my_board = Board.new("basic_board.txt")
 
-puts Position_translator.translate("c7")
+# ChessValidator.validate("basic_positions.txt")
 
-puts  "-------"
-my_pawn.get_moves(Position_translator.translate("c7"))
-my_king.get_moves(Position_translator.translate("c7"))
-my_rook.get_moves(Position_translator.translate("c7"))
-my_bishop.get_moves(Position_translator.translate("c7"))
-my_knight.get_moves(Position_translator.translate("c7"))
-my_queen.get_moves(Position_translator.translate("c7"))
-#Sample
-board = [
-          ["a8","b8","c8","d8","e8","f8","g8","h8"],
-          ["a7","b7","c7","d7","e7","f7","g7","h7"],
-          ["a6","b6","c6","d6","e6","f6","g6","h6"],
-          ["a5","b5","c5","d5","e5","f5","g5","h5"],
-          ["a4","b4","c4","d4","e4","f4","g4","h4"],
-          ["a3","b3","c3","d3","e3","f3","g3","h3"],
-          ["a2","b2","c2","d2","e2","f2","g2","h2"],
-          ["a1","b1","c1","d1","e1","f1","g1","h1"],
-]
 binding.pry
 puts "teting"
