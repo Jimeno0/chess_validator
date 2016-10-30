@@ -1,6 +1,6 @@
 require "pry"
 
-#BOARD && POSITION TRANSLATOR
+#BOARD
 class Board
   attr_reader :board
   def initialize(route)
@@ -49,13 +49,15 @@ class Board
     elsif type == "K"
       @board[x][y] = King.new([x,y])
     elsif type == "P"
-      @board[x][y] = Pawn.new([x,y])
+      # binding.pry
+      @board[x][y] = Pawn.new([x,y],color)
     else
       @board[x][y] = nil
     end
   end 
 end
 
+#POSITION TRANSLATOR
 class Position_translator
   def self.translate(string)
     string_arr = string.chars
@@ -65,8 +67,7 @@ class Position_translator
   end
 end
 
-#VALIDATOR CLASS
-
+#VALIDATOR
 class ChessValidator
 
   def initialize(route)
@@ -95,10 +96,8 @@ class ChessValidator
       else
         puts "null position"
       end
-
     end
   end
-
 end
 
 
@@ -147,9 +146,7 @@ module Bishop_move
   end
 end
 
-
-
-
+#PIECES
 class ChessPiece
   def initialize(from)
     @available_moves = []
@@ -166,10 +163,21 @@ class ChessPiece
 end
 
 class Pawn < ChessPiece
+  def initialize(from,color)
+    @color = color
+    super(from)
+    
+  end
 
   def get_moves(from)
-    #Peon. comprobar color a ver si mueve para arriba o para abajo. comprobar posivion inical para mover dos o no
+    #color y 2 moves
+    # binding.pry
+    if @color == "b"
+      
+    @available_moves.push([from[0],from[1]+1])  
+    else
     @available_moves.push([from[0],from[1]-1])
+    end
     @available_moves
   end
 end
