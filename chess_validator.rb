@@ -2,24 +2,34 @@ require "pry"
 
 #BOARD && POSITION TRANSLATOR
 class Board
+  attr_reader :board
   def initialize(route)
-    @board =[]
+    @aux_board =[]
+    @board = [[],[],[],[],[],[],[],[]]
     get_board_from_txt(route)
     create_pieces_in_board
   end
 
   def get_board_from_txt(route)
     f = File.open(route, "r")
-    txt_arr = []
     f.each_line do |line|
-      @board.push(line.chomp.split(" "))
+      @aux_board.push(line.chomp.split(" "))
     end
     f.close
+
+    for x in 0..7
+      for y in 0..7
+        # binding.pry
+        @board[x][y] = @aux_board[y][x]
+      end
+    end
+
   end
 
   def create_pieces_in_board
     for x in 0..7
       for y in 0..7
+        # binding.pry
         check_string_then_create_piece(x,y,@board[x][y])
       end
     end
@@ -57,17 +67,41 @@ class Position_translator
   end
 end
 
+#VALIDATOR CLASS
+
 class ChessValidator
-  def self.validate(route)
-    f = File.open(route, "r")
-    txt_arr = []
-    f.each_line do |line|
-      @board.push(line.chomp.split(" "))
-    end
-    f.close
+
+  def initialize(route)
+    @positions
+    get_positions_pairs(route)
   end
-  
-  
+
+  def get_positions_pairs(route)
+    f = File.open(route, "r")
+    @positions = []
+    f.each_line do |line|
+      @positions.push(line.chomp.split(" "))
+    end
+    f.close  
+  end
+
+  def check_positions(board)
+    @positions.each do |positions_pair|
+      initial = Position_translator.translate(positions_pair[0])
+      final = Position_translator.translate(positions_pair[1])
+      
+      binding.pry
+      piece_to_validate = board[initial[0]][initial[1]]
+      
+      if piece_to_validate!= nil
+        puts piece_to_validate.piece_movement_allowed?(final)
+      else
+        puts "null position"
+      end
+
+    end
+  end
+
 end
 
 
@@ -126,11 +160,16 @@ class ChessPiece
   end
 
   def piece_movement_allowed?(finPos)
-    @available_moves.include?(finPos)
+    if @available_moves.include?(finPos)
+      puts "LEGAL"
+    else
+      puts "ILLEGAL"
+    end
   end
 end
 
 class Pawn < ChessPiece
+
   def get_moves(from)
     #Peon. comprobar color a ver si mueve para arriba o para abajo. comprobar posivion inical para mover dos o no
     @available_moves.push(from[0],from[1]-1)
@@ -207,33 +246,11 @@ end
 #por el otro extremo del tablero en el peon y rey y eso hay que arreglarlo tambien (dejar para el final la comparacion con si hay otra ficha, así podemos hacer que no pete???)
 
 
-# my_pawn = Pawn.new(Position_translator.translate("c7"))
-# my_king = King.new(Position_translator.translate("c7"))
-# my_rook = Rook.new(Position_translator.translate("c7"))
-# my_bishop = Bishop.new(Position_translator.translate("c7"))
-# my_knight = Knight.new(Position_translator.translate("c7"))
-# my_queen = Queen.new(Position_translator.translate("c7"))
-
-# puts Position_translator.translate("c7")
-
-# puts  "-------"
-
-# #Sample
-# board = [
-#           ["a8","b8","c8","d8","e8","f8","g8","h8"],
-#           ["a7","b7","c7","d7","e7","f7","g7","h7"],
-#           ["a6","b6","c6","d6","e6","f6","g6","h6"],
-#           ["a5","b5","c5","d5","e5","f5","g5","h5"],
-#           ["a4","b4","c4","d4","e4","f4","g4","h4"],
-#           ["a3","b3","c3","d3","e3","f3","g3","h3"],
-#           ["a2","b2","c2","d2","e2","f2","g2","h2"],
-#           ["a1","b1","c1","d1","e1","f1","g1","h1"],
-# ]
-
 
 my_board = Board.new("basic_board.txt")
 
-# ChessValidator.validate("basic_positions.txt")
+validate = ChessValidator.new("basic_positions.txt")
+validate.check_positions(my_board.board)
 
 binding.pry
-puts "teting"
+puts "testing"
