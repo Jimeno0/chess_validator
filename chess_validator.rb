@@ -49,7 +49,6 @@ class Board
     elsif type == "K"
       @board[x][y] = King.new([x,y])
     elsif type == "P"
-      # binding.pry
       @board[x][y] = Pawn.new([x,y],color)
     else
       @board[x][y] = nil
@@ -170,13 +169,17 @@ class Pawn < ChessPiece
   end
 
   def get_moves(from)
-    #color y 2 moves
-    # binding.pry
+    #color y 2 move
     if @color == "b"
-      
-    @available_moves.push([from[0],from[1]+1])  
+    @available_moves.push([from[0],from[1]+1])
+      if from[1] == 1
+        @available_moves.push([from[0],from[1]+2])
+      end
     else
-    @available_moves.push([from[0],from[1]-1])
+      @available_moves.push([from[0],from[1]-1])
+      if from[1] == 6
+        @available_moves.push([from[0],from[1]-2])
+      end
     end
     @available_moves
   end
