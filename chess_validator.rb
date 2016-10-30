@@ -1,4 +1,5 @@
 require "pry"
+require "colorize"
 
 #BOARD
 class Board
@@ -86,7 +87,6 @@ class ChessValidator
   def check_positions(board)
 
     @positions.each do |positions_pair|
-
       initial = Position_translator.translate(positions_pair[0])
       final = Position_translator.translate(positions_pair[1])
       
@@ -94,20 +94,17 @@ class ChessValidator
       destiny_to_validate = board[final[0]][final[1]]
 
       if piece_to_validate!= nil
-        # puts piece_to_validate.piece_movement_allowed?(final)
-
         if piece_to_validate.piece_movement_allowed?(final)
-
           if destiny_to_validate!= nil
-            puts "ILLEGAL (piece at destiny place)"
+            puts "Destination Occupied".colorize(:yellow)
           else
-            puts "LEGAL (empty destiny)"
+            puts "Legal".colorize(:green)
           end
         else
-        puts "ILLEGAL (movement not allowed for this piece)"
+        puts "Illegal".colorize(:red)
         end 
       else
-        puts "ILLEGAL (null position)"
+        puts "Empty Position".colorize(:blue)
       end
     end
   end
@@ -263,15 +260,12 @@ class Queen <ChessPiece
   end
 end
 
-#Peon. comprobar color a ver si mueve para arriba o para abajo. comprobar posivion inical para mover dos o no
-#si se sale del tablero el moviemiento, podria ser que vaya a a entrar 
-#por el otro extremo del tablero en el peon y rey y eso hay que arreglarlo tambien (dejar para el final la comparacion con si hay otra ficha, así podemos hacer que no pete???)
 
+# my_board = Board.new("basic_board.txt")
+my_board = Board.new("complex_board.txt")
 
-
-my_board = Board.new("basic_board.txt")
-
-validate = ChessValidator.new("basic_positions.txt")
+# validate = ChessValidator.new("basic_positions.txt")
+validate = ChessValidator.new("complex_moves.txt")
 validate.check_positions(my_board.board)
 
 binding.pry

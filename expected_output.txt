@@ -1,0 +1,113 @@
+Legal
+Illegal
+Empty Position
+Illegal
+Legal
+Empty Position
+Illegal
+Empty Position
+Illegal
+Empty Position
+Destination Occupied
+Empty Position
+Empty Position
+Legal
+Illegal
+Empty Position
+Legal
+Empty Position
+Destination Occupied
+Destination Occupied
+Empty Position
+Destination Occupied
+Destination Occupied
+Illegal
+Illegal
+Legal
+Empty Position
+Destination Occupied
+Illegal
+Empty Position
+Illegal
+Empty Position
+Legal
+Empty Position
+Empty Position
+Destination Occupied
+Legal
+Empty Position
+Destination Occupied
+Illegal
+Empty Position
+Empty Position
+Empty Position
+Illegal
+Empty Position
+Legal
+Empty Position
+Illegal
+Empty Position
+Empty Position
+Empty Position
+Empty Position
+Empty Position
+Legal
+Illegal
+Legal
+Destination Occupied
+Legal
+Empty Position
+Illegal
+Empty Position
+Legal
+Destination Occupied
+Empty Position
+Empty Position
+Legal
+Destination Occupied
+Illegal
+Destination Occupied
+Illegal
+Illegal
+Empty Position
+Empty Position
+Illegal
+Illegal
+Illegal
+Destination Occupied
+Illegal
+Empty Position
+Destination Occupied
+Legal
+Empty Position
+Destination Occupied
+Empty Position
+Illegal
+Illegal
+Legal
+Empty Position
+Empty Position
+Empty Position
+Destination Occupied
+Destination Occupied
+Destination Occupied
+Empty Position
+Empty Position
+Destination Occupied
+Destination Occupied
+Destination Occupied
+Empty Position
+Destination Occupied
+Empty Position
+Empty Position
+Legal
+Legal
+Empty Position
+Destination Occupied
+Empty Position
+Destination Occupied
+Illegal
+Empty Position
+Illegal
+Illegal
+Destination Occ
