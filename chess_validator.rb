@@ -84,16 +84,30 @@ class ChessValidator
   end
 
   def check_positions(board)
+
     @positions.each do |positions_pair|
+
       initial = Position_translator.translate(positions_pair[0])
       final = Position_translator.translate(positions_pair[1])
       
       piece_to_validate = board[initial[0]][initial[1]]
-      
+      destiny_to_validate = board[final[0]][final[1]]
+
       if piece_to_validate!= nil
-        puts piece_to_validate.piece_movement_allowed?(final)
+        # puts piece_to_validate.piece_movement_allowed?(final)
+
+        if piece_to_validate.piece_movement_allowed?(final)
+
+          if destiny_to_validate!= nil
+            puts "ILLEGAL (piece at destiny place)"
+          else
+            puts "LEGAL (empty destiny)"
+          end
+        else
+        puts "ILLEGAL (movement not allowed for this piece)"
+        end 
       else
-        puts "null position"
+        puts "ILLEGAL (null position)"
       end
     end
   end
@@ -154,9 +168,9 @@ class ChessPiece
 
   def piece_movement_allowed?(finPos)
     if @available_moves.include?(finPos)
-      puts "LEGAL"
+      true
     else
-      puts "ILLEGAL"
+      false
     end
   end
 end
