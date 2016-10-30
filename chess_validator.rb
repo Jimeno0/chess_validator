@@ -19,7 +19,6 @@ class Board
 
     for x in 0..7
       for y in 0..7
-        # binding.pry
         @board[x][y] = @aux_board[y][x]
       end
     end
@@ -29,7 +28,6 @@ class Board
   def create_pieces_in_board
     for x in 0..7
       for y in 0..7
-        # binding.pry
         check_string_then_create_piece(x,y,@board[x][y])
       end
     end
@@ -90,7 +88,6 @@ class ChessValidator
       initial = Position_translator.translate(positions_pair[0])
       final = Position_translator.translate(positions_pair[1])
       
-      binding.pry
       piece_to_validate = board[initial[0]][initial[1]]
       
       if piece_to_validate!= nil
@@ -172,7 +169,7 @@ class Pawn < ChessPiece
 
   def get_moves(from)
     #Peon. comprobar color a ver si mueve para arriba o para abajo. comprobar posivion inical para mover dos o no
-    @available_moves.push(from[0],from[1]-1)
+    @available_moves.push([from[0],from[1]-1])
     @available_moves
   end
 end
